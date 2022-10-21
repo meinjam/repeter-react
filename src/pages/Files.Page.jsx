@@ -26,6 +26,7 @@ const Files = () => {
       .post('https://eoybxw32g2lzz7n.m.pipedream.net', postData)
       .then((resp) => {
         console.log(resp.data);
+        setInputFields([{ file: '', file_url: '' }]);
       })
       .catch((error) => {
         console.log(error.response);
@@ -49,6 +50,13 @@ const Files = () => {
     // console.log(img);
   };
 
+  const handleRemoveSingle = (i) => {
+    // console.log(i);
+    const newItems = [...inputFields].filter((item, idx) => idx !== i);
+    // console.log(newItems);
+    setInputFields(newItems);
+  };
+
   return (
     <section className='py-4'>
       <div className='container'>
@@ -58,41 +66,30 @@ const Files = () => {
               {inputFields?.map((inputField, i) => (
                 <div className='mb-3 d-flex align-items-center justify-content-between' key={i}>
                   <div>
-                    <label htmlFor={`avatar`} className='form-label'>
-                      Select Image
-                    </label>
                     <input
-                      className='form-control'
+                      className='custom-file-input'
                       type='file'
                       id={`avatar`}
                       name='avatar'
                       onChange={(e) => handleFormChange(i, e)}
+                      style={{
+                        backgroundImage: inputField.file_url !== '' ? `url('${inputField.file_url}')` : '',
+                      }}
                     />
                   </div>
-                  {inputField.file_url !== '' ? (
-                    <img
-                      width={100}
-                      height={100}
-                      src={inputField.file_url}
-                      alt=''
-                      className='rounded-circle border border-1'
-                    />
-                  ) : (
-                    <img
-                      width={100}
-                      height={100}
-                      src='https://img.icons8.com/color/344/filled-circle.png'
-                      alt=''
-                      className='rounded-circle border border-1'
-                    />
-                  )}
+                  <button
+                    type='button'
+                    className='btn-close btn-close-danger'
+                    onClick={() => handleRemoveSingle(i)}
+                    disabled={i === 0 ? 'disabled' : ''}
+                  />
                 </div>
               ))}
-              <button type='button' className='btn btn-primary btn-sm' onClick={addFields}>
+              <button type='button' className='btn btn-secondary btn-sm' onClick={addFields}>
                 Add More
               </button>
               <br />
-              <button type='submit' className='btn btn-primary mt-4'>
+              <button type='submit' className='btn btn-success mt-4'>
                 Submit
               </button>
             </form>

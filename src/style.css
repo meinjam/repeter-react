@@ -1,0 +1,16 @@
+/*custom inpu file*/
+.custom-file-input {
+  color: transparent;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #ececec;
+  background-size: 100px 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #ececec;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
