@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const Files = () => {
@@ -8,9 +9,27 @@ const Files = () => {
     setInputFields([...inputFields, newfield]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputFields);
+    // console.log(inputFields);
+
+    let postData = new FormData();
+    postData.append('users', JSON.stringify(inputFields));
+    inputFields.map((field, i) => {
+      let img = field.file;
+      postData.append('avatar' + (i + 1), img, img.name);
+    });
+
+    // console.log(...postData)
+
+    axios
+      .post('https://eoybxw32g2lzz7n.m.pipedream.net', postData)
+      .then((resp) => {
+        console.log(resp.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   const handleFormChange = (i, e) => {
